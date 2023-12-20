@@ -1,0 +1,21 @@
+[package]
+name = "gqdb"
+version = "0.1.0"
+edition = "2021"
+authors = ["Gabriel Velo <gabriel.velo@gmail.com>"]
+description = "Core lib for the global QSO database"
+documentation = "https://docs.rs/gqdb"
+keywords = ["hamradio", "logbook", "qsl", "qso"]
+license = "Apache-2.0"
+repository = "https://github.com/gvelo/gqdb"
+
+[dependencies]
+secp256k1 = { version = "0.28.0", features = ["global-context", "rand-std", "serde"] }
+serde = { version = "1.0.193", features = ["derive"] }
+sha2 = "0.10.8"
+hex = { version = "0.4.3", features = ["serde"] }
+serde_json = { version = "1.0" }
+rand = "0.8.5"
+codes-iso-3166 = "0.1.5"
+anyhow = "1.0.75"
+
