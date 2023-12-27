@@ -87,14 +87,13 @@ impl Station {
 
 #[cfg(test)]
 mod tests {
-    use secp256k1::generate_keypair;
+    use crate::keys::generate_keypair;
 
     use super::*;
 
     #[test]
     fn test_sign_verify() {
-        let (secret_key, _) = generate_keypair(&mut rand::thread_rng());
-        let keys = Keypair::from_secret_key(secp256k1::SECP256K1, &secret_key);
+        let keys = generate_keypair();
 
         let station = Station::new(
             &keys,
@@ -108,8 +107,7 @@ mod tests {
 
     #[test]
     fn test_tampered_message() {
-        let (secret_key, _) = generate_keypair(&mut rand::thread_rng());
-        let keys = Keypair::from_secret_key(secp256k1::SECP256K1, &secret_key);
+        let keys = generate_keypair();
 
         let mut station = Station::new(
             &keys,

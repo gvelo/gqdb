@@ -1,4 +1,4 @@
-// Copyright 2021 The GQDB Authors
+// Copyright 2023 The GQDB Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,15 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! The global QSO Database.
+use secp256k1::Keypair;
 
-mod certificate;
-mod id;
-mod station;
-mod time;
-
-pub mod keys;
-
-pub use crate::certificate::Certificate;
-pub use crate::id::Id;
-pub use crate::station::Station;
+pub fn generate_keypair() -> Keypair {
+    let (secret_key, _) = secp256k1::generate_keypair(&mut rand::thread_rng());
+    Keypair::from_secret_key(secp256k1::SECP256K1, &secret_key)
+}
