@@ -24,5 +24,5 @@ pub mod keys;
 
 pub use crate::certificate::Certificate;
 pub use crate::id::Id;
-pub use crate::station::Station;
 pub use crate::qso::Qso;
+pub use crate::station::Station;
