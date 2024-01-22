@@ -12,7 +12,7 @@
 // limitations under the License.
 
 use crate::{time, Id};
-use anyhow::Error;
+use anyhow::{bail, Error};
 use secp256k1::schnorr::Signature;
 use secp256k1::{Keypair, XOnlyPublicKey};
 use serde::{Deserialize, Serialize};
@@ -118,6 +118,10 @@ impl Qso {
             version: self.version,
         });
 
+        if id != self.id {
+            bail!("invalid id");
+        }
+
         id.verify(station_pub_key, &self.sig)?;
         Ok(())
     }
@@ -139,7 +143,8 @@ mod test {
             "LU4EV".to_string(),
             "Radio Club Caseros".to_string(),
             CountryCode::AR,
-        );
+        )
+        .unwrap();
 
         let qso = Qso::new(
             QsoData {

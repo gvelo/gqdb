@@ -13,7 +13,7 @@
 
 use crate::time::unix_timstamp;
 use crate::Id;
-use anyhow::Error;
+use anyhow::{bail, Error};
 use secp256k1::schnorr::Signature;
 use secp256k1::{Keypair, XOnlyPublicKey};
 use serde::{Deserialize, Serialize};
@@ -53,6 +53,11 @@ impl Certificate {
             self.created_at,
             self.version,
         );
+
+        if id != self.id {
+            bail!("invalid id");
+        }
+
         id.verify(issuer_pub_key, &self.sig)?;
         Ok(())
     }
@@ -82,13 +87,15 @@ mod tests {
             "LU4EV".to_string(),
             "Radio Club Caceros".to_string(),
             CountryCode::AR,
-        );
+        )
+        .unwrap();
         let subject_station = Station::new(
             &subject_keys,
             "LU2TST".to_string(),
             "Test Operator".to_string(),
             CountryCode::AR,
-        );
+        )
+        .unwrap();
 
         let certificate = Certificate::new(
             issuer_station.id.clone(),
@@ -117,13 +124,15 @@ mod tests {
             "LU4EV".to_string(),
             "Radio Club Caceros".to_string(),
             CountryCode::AR,
-        );
+        )
+        .unwrap();
         let subject_station = Station::new(
             &subject_keys,
             "LU2TST".to_string(),
             "Test Operator".to_string(),
             CountryCode::AR,
-        );
+        )
+        .unwrap();
 
         let mut certificate = Certificate::new(
             issuer_station.id.clone(),

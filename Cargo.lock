@@ -301,6 +301,7 @@ dependencies = [
  "codes-iso-3166",
  "hex",
  "rand",
+ "regex",
  "secp256k1",
  "serde",
  "serde_json",
