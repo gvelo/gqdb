@@ -295,7 +295,7 @@ dependencies = [
 
 [[package]]
 name = "gqdb"
-version = "0.1.0"
+version = "0.1.0-alpha.1"
 dependencies = [
  "anyhow",
  "codes-iso-3166",
