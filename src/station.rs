@@ -23,7 +23,7 @@ use serde_json::Value;
 use crate::id::Id;
 use crate::time;
 
-thread_local! { static IS_CALLSIGN: Regex = Regex::new("^[A-Z0-9]{2,16}$").unwrap()}
+thread_local! { pub static  IS_CALLSIGN: Regex = Regex::new("^[A-Z0-9]{2,16}$").unwrap()}
 const OPERATOR_MAX_LEN: usize = 64;
 
 /// Station represent a radio station with a callsign and an operator.

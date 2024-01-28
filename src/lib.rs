@@ -20,9 +20,11 @@ mod time;
 
 mod qso;
 
-pub mod keys;
+mod keys;
 
 pub use crate::certificate::Certificate;
 pub use crate::id::Id;
+pub use crate::keys::generate_keypair;
 pub use crate::qso::Qso;
+pub use crate::qso::QsoData;
 pub use crate::station::Station;

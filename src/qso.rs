@@ -12,11 +12,15 @@
 // limitations under the License.
 
 use crate::{time, Id};
-use anyhow::{bail, Error};
+use anyhow::{bail, Result};
 use secp256k1::schnorr::Signature;
 use secp256k1::{Keypair, XOnlyPublicKey};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
+
+const MODE_MAX_LEN: usize = 16;
+const RST_MAX_LEN: usize = 8;
+const COMMENTS_MAX_LEN: usize = 128;
 
 pub struct QsoData {
     station_id: Id,
@@ -105,7 +109,7 @@ impl Qso {
         Id::new(&json_str)
     }
 
-    pub fn verify(&self, station_pub_key: &XOnlyPublicKey) -> Result<(), Error> {
+    pub fn verify(&self, station_pub_key: &XOnlyPublicKey) -> Result<()> {
         let id = Self::generate_id(QsoIdSrc {
             station_id: &self.station_id,
             callsign: &self.callsign,
@@ -123,6 +127,27 @@ impl Qso {
         }
 
         id.verify(station_pub_key, &self.sig)?;
+        self.validate()?;
+        Ok(())
+    }
+
+    fn validate(&self) -> Result<()> {
+        if !crate::station::IS_CALLSIGN.with(|is_callsign| is_callsign.is_match(&self.callsign)) {
+            bail!("invalid callsign");
+        }
+
+        if self.rst.trim().is_empty() || self.rst.len() > RST_MAX_LEN {
+            bail!("invalid rst");
+        }
+
+        if self.mode.trim().is_empty() || self.mode.len() > MODE_MAX_LEN {
+            bail!("invalid mode");
+        }
+
+        if self.comments.len() > COMMENTS_MAX_LEN {
+            bail!("invalid comments");
+        }
+
         Ok(())
     }
 }
