@@ -23,13 +23,13 @@ const RST_MAX_LEN: usize = 8;
 const COMMENTS_MAX_LEN: usize = 128;
 
 pub struct QsoData {
-    station_id: Id,
-    callsign: String,
-    datetime: u64,
-    freq: u64,
-    mode: String,
-    rst: String,
-    comments: String,
+    pub station_id: Id,
+    pub callsign: String,
+    pub datetime: u64,
+    pub freq: u64,
+    pub mode: String,
+    pub rst: String,
+    pub comments: String,
 }
 
 struct QsoIdSrc<'a> {
